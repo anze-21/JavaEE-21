@@ -7,7 +7,7 @@
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <!--配置登录的URL-->
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="/"/>
         <!--登录成功的结果URL-->
         <property name="successUrl" value="/home"/>
         <!--没有权限重定向到URL-->

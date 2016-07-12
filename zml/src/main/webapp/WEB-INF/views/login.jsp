@@ -1,53 +1,58 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: xieyue
-  Date: 2016/7/7
-  Time: 20:14
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>CBC</title>
+    <title>KaishengCRM</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="/static/adminlte/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/plugins/fontawesome/css/font-awesome.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/static/adminlte/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="/static/adminlte/plugins/iCheck/square/blue.css">
-
-    <style>
-        body{
-        }
-    </style>
-
+    <link rel="stylesheet" href="/static/plugins/iCheck/square/blue.css">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-image: url(/static/dist/img/credit/3.jpg)">
 <div class="login-box">
     <div class="login-logo">
-        <a href="/static/adminlte/index2.html"><b>CBC</b>CRM</a>
+        <a href="/"><b>KaiSheng</b>CRM</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">请登陆你的账号</p>
+        <c:if test="${not empty message}">
+            <c:choose>
+                <c:when test="${message.state == 'success'}">
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                            ${message.message}
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                            ${message.message}
+                    </div>
+                </c:otherwise>
+            </c:choose>
 
-        <form action="/static/adminlte/index2.html" method="post">
+        </c:if>
+        <form action="/" method="post">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="账号">
-                <span class="fa fa-user form-control-feedback"></span>
+                <input type="text" class="form-control" name="username" autofocus placeholder="账号">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="密码">
-                <span class="fa fa-lock form-control-feedback"></span>
+                <input type="password" class="form-control" name="password" placeholder="密码">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
                 <div class="col-xs-8">
@@ -57,21 +62,29 @@
                         </label>
                     </div>
                 </div>
+                <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">登陆</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
                 </div>
+                <!-- /.col -->
             </div>
         </form>
+
+
+
+        <a href="#">忘记密码</a><br>
+
     </div>
+    <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
 
-<!-- jQuery 2.2.3 -->
-<script src="/static/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- jQuery 2.2.0 -->
+<script src="/static/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="/static/adminlte/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script src="/static/adminlte/plugins/iCheck/icheck.min.js"></script>
+<script src="/static/plugins/iCheck/icheck.min.js"></script>
 <script>
     $(function () {
         $('input').iCheck({
@@ -83,4 +96,3 @@
 </script>
 </body>
 </html>
-

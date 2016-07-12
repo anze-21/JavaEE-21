@@ -2,11 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kaishengit</groupId>
-  <artifactId>ssm</artifactId>
+  <artifactId>CRM2</artifactId>
   <packaging>war</packaging>
 
   <version>1.0-SNAPSHOT</version>
-  <name>ssm Maven Webapp</name>
+  <name>CRM2 Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
   <dependencies>
@@ -155,7 +155,7 @@
 
   </dependencies>
   <build>
-    <finalName>ssm</finalName>
+    <finalName>CRM2</finalName>
     <plugins>
       <!-- 编译插件 -->
       <plugin>

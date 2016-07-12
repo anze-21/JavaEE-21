@@ -61,19 +61,4 @@
     <!--开启基于注解的AOP-->
     <aop:aspectj-autoproxy/>
 
-    <!--<aop:config>-->
-    <!--&lt;!&ndash;引用通知类对象&ndash;&gt;-->
-    <!--<aop:aspect ref="mayAdvice">-->
-    <!--&lt;!&ndash; 定义切入点表达式&ndash;&gt;-->
-    <!--<aop:pointcut id="myPointCut" expression="execution(* com.it.mapper..*.*(..))"/>-->
-    <!--&lt;!&ndash; 环绕通知&ndash;&gt;-->
-    <!--<aop:around method="aroundAdvice" pointcut-ref="myPointCut"/>-->
-    <!--&lt;!&ndash;加入各种通知，前置，后置，最终，异常&ndash;&gt;-->
-    <!--&lt;!&ndash;<aop:before method="beforeInf" pointcut-ref="myPointCut"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<aop:after-returning method="afterReturningInf" pointcut-ref="myPointCut" returning="result"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<aop:after-throwing method="exceptionInf" pointcut-ref="myPointCut" throwing="e"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<aop:after method="finallyInf" pointcut-ref="myPointCut"/>&ndash;&gt;-->
-    <!--</aop:aspect>-->
-    <!--</aop:config>-->
-
 </beans>
