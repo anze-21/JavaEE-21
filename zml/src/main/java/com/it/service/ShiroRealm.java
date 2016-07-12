@@ -3,6 +3,7 @@ package com.it.service;
 
 import com.it.mapper.RoleMapper;
 import com.it.mapper.UserMapper;
+import com.it.pojo.Role;
 import com.it.pojo.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -30,13 +31,17 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         User user = (User) principalCollection.getPrimaryPrincipal();
         if (user != null) {
+            //根据用户的RoleID获取Role对象
+            Integer roleId = user.getRoleid();
+            Role role = roleMapper.findById(roleId);
             //将用户的角色名称赋值给info
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-            info.addRole(user.getRole().getRolename());
+            info.addRole(role.getRolename());
             return info;
         }
         return null;
     }
+
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {

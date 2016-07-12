@@ -49,9 +49,11 @@ public class HomeController {
             userService.saveUserLogin(ServletUtil.getRemoteIp(request));
             return "redirect:/home";
         } catch (LockedAccountException ex) {
-            redirectAttributes.addFlashAttribute("message",new FlashMessage(FlashMessage.STATE_ERROR,"账号已被禁用"));
+            redirectAttributes.addFlashAttribute("message",
+                    new FlashMessage(FlashMessage.STATE_ERROR,"账号已被禁用"));
         } catch (AuthenticationException exception) {
-            redirectAttributes.addFlashAttribute("message",new FlashMessage(FlashMessage.STATE_ERROR,"账号或密码错误"));
+            redirectAttributes.addFlashAttribute("message",
+                    new FlashMessage(FlashMessage.STATE_ERROR,"账号或密码错误"));
         }
         return "redirect:/";
     }
