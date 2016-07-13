@@ -14,6 +14,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/static/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="/static/plugins/datatables/css/dataTables.bootstrap.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -24,23 +25,41 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">登录日志列表</h3>
-                </div>
-                <div class="box-body">
-                    <table class="table" id="logTable">
-                        <thead>
-                        <tr>
-                            <th>登录时间</th>
-                            <th>登录IP</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+            <!-- <div class="box box-primary">
+                 <div class="box-header with-border">
+                     <h3 class="box-title">登录日志列表</h3>
+                 </div>
+                 <div class="box-body">
+                     <table class="table" id="logTable">
+                         <thead>
+                         <tr>
+                             <th>登录时间</th>
+                             <th>登录IP</th>
+                         </tr>
+                         </thead>
+                         <tbody></tbody>
+                     </table>-->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">登录日志列表</h3>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover" id="logTable">
+                                <thead>
+                                <tr>
+                                    <th>登录时间</th>
+                                    <th>登录IP</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
 
         </section>
         <!-- /.content -->
@@ -63,14 +82,15 @@
             serverSide: true,
             ajax: "/user/log/load",
             ordering: false,
+            "autoWidth": false,
             columns: [
                 {"data": "logintime"},
                 {"data": "loginip"}
             ],
-             "language": {//定义中文
+            "language": {//定义中文
                 "search": "请输入书记名称:",
                 "zeroRecords": "没有匹配的数据",
-                "lengthMenu":"显示_MENU_条数据",
+                "lengthMenu": "显示_MENU_条数据",
                 "info": "显示_START_到_END_条数据 共_TOTAL_条数据",
                 "infoFiltered": "(从_MAX_条数据中过滤得来)",
                 "loadingRecords": "加载中...",
@@ -79,7 +99,7 @@
                     "first": "首页",
                     "last": "末页",
                     "next": "下一页",
-                   "previous": "上一页"
+                    "previous": "上一页"
                 }
 
             }
