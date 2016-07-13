@@ -17,6 +17,10 @@
     <select id="findByUsername" resultType="User">
         SELECT * FROM t_user WHERE username = #{username}
     </select>
+    <select id="findById" resultType="User">
+        SELECT * FROM t_user WHERE id = #{id}
+
+    </select>
 
     <select id="findByParam" resultType="User">
         SELECT t_user.*,t_role.id as 'role.id',t_role.rolename as 'role.rolename' FROM t_user

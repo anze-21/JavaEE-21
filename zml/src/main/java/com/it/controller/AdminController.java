@@ -74,6 +74,17 @@ public class AdminController {
         return "success";
 
     }
+    /**
+     *重置用户密码为000000
+     * @return
+     */
+    @RequestMapping(value = "/users/resetpassword",method = RequestMethod.POST)
+    @ResponseBody
+    public String resetPassword(Integer id){
+        userService.resetUserPassword(id);
+        return "success";
+
+    }
 
 
 }

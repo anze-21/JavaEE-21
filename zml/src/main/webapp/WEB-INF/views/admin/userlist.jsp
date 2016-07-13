@@ -40,7 +40,8 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">员工列表</h3>
                     <div class="box-tools pull-right">
-                        <a href="javascript:;" id="newBtn" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>新增</a>
+                        <a href="javascript:;" id="newBtn" class="btn btn-xs btn-success"><i
+                                class="fa fa-plus"></i>新增</a>
                     </div>
                 </div>
                 <div class="box-body">
@@ -128,120 +129,145 @@
 <script src="/static/plugins/moment/moment.min.js"></script>
 <script src="/static/plugins/validate/jquery.validate.min.js"></script>
 <script>
-    $(function(){
+    $(function () {
         var dataTable = $("#userTable").DataTable({
-            serverSide:true,
-            ajax:"/admin/users/load",
-            ordering:false,
-            "autoWidth":false,
-            columns:[
-                {"data":"id"},
-                {"data":"username"},
-                {"data":"realname"},
-                {"data":"weixin"},
-                {"data":"role.rolename"},
-                {"data":function(row){
-                    if(row.enable){
-                        return "<span class='label label-success'>正常</span>";
-                    }else{
-                        return "<span class='label label-danger'>禁用</span>";
+            serverSide: true,
+            ajax: "/admin/users/load",
+            ordering: false,
+            "autoWidth": false,
+            columns: [
+                {"data": "id"},
+                {"data": "username"},
+                {"data": "realname"},
+                {"data": "weixin"},
+                {"data": "role.rolename"},
+                {
+                    "data": function (row) {
+                        if (row.enable) {
+                            return "<span class='label label-success'>正常</span>";
+                        } else {
+                            return "<span class='label label-danger'>禁用</span>";
+                        }
                     }
-                }},
-                {"data":function(row){
-                    var timestamp = row.createtime;
-                    var day=moment(timestamp);
-                    return day.format("YYYY-MM-DD HH:mm");
-                }},
-                {"data":function(row){
-                    return "";
+                },
+                {
+                    "data": function (row) {
+                        var timestamp = row.createtime;
+                        var day = moment(timestamp);
+                        return day.format("YYYY-MM-DD HH:mm");
+                    }
+                },
+                {
+                    "data": function (row) {
+                        return "<a href='javascript:;' class='resetPwd' rel='" + row.id + "'>重置密码</a>";
 
-                }}
+
+                    }}
             ],
-            "language":{//定义中文
-                "search":"请输入员工姓名或登录账号:",
-                "zeroRecords":"没有匹配的数据",
-                "lengthMenu":"显示_MENU_条数据",
-                "info":"显示从_START_到_END_条数据 共_TOTAL_条数据",
-                "infoFiltered":"(从_MAX_条数据中过滤得来)",
-                "loadingRecords":"加载中...",
-                "processing":"处理中...",
-                "paginate":{
-                    "first":"首页",
-                    "last":"末页",
-                    "next":"下一页",
-                    "previous":"上一页"
+            "language": {//定义中文
+                "search": "请输入员工姓名或登录账号:",
+                "zeroRecords": "没有匹配的数据",
+                "lengthMenu": "显示_MENU_条数据",
+                "info": "显示从_START_到_END_条数据 共_TOTAL_条数据",
+                "infoFiltered": "(从_MAX_条数据中过滤得来)",
+                "loadingRecords": "加载中...",
+                "processing": "处理中...",
+                "paginate": {
+                    "first": "首页",
+                    "last": "末页",
+                    "next": "下一页",
+                    "previous": "上一页"
                 }
             }
         });
         //新增用户
         $("#newForm").validate({
-            errorClass:"text-danger",
-            errorElement:"span",
-            rules:{
-                username:{
-                    required:true,
-                    rangelength:[3,20],
-                    remote:"/admin/user/checkusername"
+            errorClass: "text-danger",
+            errorElement: "span",
+            rules: {
+                username: {
+                    required: true,
+                    rangelength: [3, 20],
+                    remote: "/admin/user/checkusername"
                 },
-                realname:{
-                    required:true,
-                    rangelength:[2,20],
-                    remote:"/admin/user/checkusername"
+                realname: {
+                    required: true,
+                    rangelength: [2, 20],
+                    remote: "/admin/user/checkusername"
                 },
-                password:{
-                    required:true,
-                    rangelength:[6,18]
+                password: {
+                    required: true,
+                    rangelength: [6, 18]
                 },
-                weixin:{
-                    required:true
+                weixin: {
+                    required: true
                 }
             },
-            messages:{
-                username:{
-                    required:"请输入用户名",
-                    rangelength:"用户名的长度3~20位",
-                    remote:"该用户名已被占用"
+            messages: {
+                username: {
+                    required: "请输入用户名",
+                    rangelength: "用户名的长度3~20位",
+                    remote: "该用户名已被占用"
 
                 },
-                realname:{
-                    required:"请输入真实姓名",
-                    rangelength:"真实姓名长度2~20位"
+                realname: {
+                    required: "请输入真实姓名",
+                    rangelength: "真实姓名长度2~20位"
                 },
-                password:{
-                    required:"请输入密码",
-                    rangelength:"密码长度6~18位"
+                password: {
+                    required: "请输入密码",
+                    rangelength: "密码长度6~18位"
                 },
-                weixin:{
-                    required:"请输入微信号码",
+                weixin: {
+                    required: "请输入微信号码",
                 }
             },
-            submitHandler:function(form){
-                $.post("/admin/users/new",$(form).serialize()).done(function(data){
-                    if(data == "success"){
+            submitHandler: function (form) {
+                $.post("/admin/users/new", $(form).serialize()).done(function (data) {
+                    if (data == "success") {
                         $("#newModal").modal('hide');
                         dataTable.ajax.reload();
                     }
 
-                }).fail(function(){
+                }).fail(function () {
                     alert("服务器异常");
                 });
             }
         });
 
-        $("#newBtn").click(function(){
+        $("#newBtn").click(function () {
             $("#newForm")[0].reset();
             $("#newModal").modal({
-                show:true,
-                backdrop:'static',
-                keyboard:false
+                show: true,
+                backdrop: 'static',
+                keyboard: false
 
             });
 
         });
 
-        $("#saveBtn").click(function(){
+        $("#saveBtn").click(function () {
             $("#newForm").submit();
         });
+
+
+        //重置密码
+        $(document).delegate(".resetPwd", "click", function () {
+            var id = $(this).attr("rel");
+            if (confirm("确认将密码重置为：000000？")) {
+                $.post("/admin/users/resetpassword", {"id": id}).done(function (data) {
+                    if (data == 'success') {
+                        alert("密码重置成功");
+                    }
+                }).fail(function () {
+                    alert("服务器异常");
+
+                });
+
+            }
+
+        })
+
 
     });
 </script>

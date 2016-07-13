@@ -17,4 +17,6 @@ public interface UserMapper {
     Long countByParam(Map<String, Object> params);
 
     void save(User user);
+
+    User findById(Integer id);
 }
