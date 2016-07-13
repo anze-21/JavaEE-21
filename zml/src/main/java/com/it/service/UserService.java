@@ -3,6 +3,7 @@ import com.google.common.collect.Maps;
 import com.it.mapper.RoleMapper;
 import com.it.mapper.UserLogMapper;
 import com.it.mapper.UserMapper;
+import com.it.pojo.Role;
 import com.it.pojo.User;
 import com.it.pojo.UserLog;
 import com.it.util.ShiroUtil;
@@ -99,5 +100,31 @@ public class UserService {
      */
     public Long findUserCountByParam(Map<String, Object> params) {
         return userMapper.countByParam(params);
+    }
+    /**
+     * 获取所有的角色
+     * @return
+     */
+    public List<Role> findAllRole() {
+        return roleMapper.findAll();
+    }
+    /**
+     * 根据用户名查找用户
+     * @param username
+     * @return
+     */
+
+    public User findUserByUserName(String username) {
+        return userMapper.findByUsername(username);
+    }
+    /**
+     * 添加新用户
+     * @param user
+     */
+    public void saveUser(User user) {
+        user.setEnable(true);
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+        //TODO向微信公众平台注册账号
+        userMapper.save(user);
     }
 }
