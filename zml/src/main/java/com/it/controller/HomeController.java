@@ -76,4 +76,9 @@ public class HomeController {
     public String home() {
         return "home";
     }
+    @RequestMapping("/403")
+    public String error403(){
+        return "error/403";
+    }
+
 }
