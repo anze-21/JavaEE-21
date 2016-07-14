@@ -1,16 +1,14 @@
 package com.it.controller;
 import com.google.common.collect.Maps;
 import com.it.dto.DataTablesResult;
+import com.it.dto.JSONResult;
 import com.it.pojo.Role;
 import com.it.pojo.User;
 import com.it.service.UserService;
 import com.it.util.Strings;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -82,6 +80,33 @@ public class AdminController {
     @ResponseBody
     public String resetPassword(Integer id){
         userService.resetUserPassword(id);
+        return "success";
+
+    }
+    /**
+     * 根据用户的ID显示用户JSON
+     * @return
+     */
+    @RequestMapping(value = "/users/{id:\\d+}.json",method = RequestMethod.GET)
+    @ResponseBody
+    public JSONResult showUser(@PathVariable Integer id){
+        User user = userService.findUserById(id);
+        if(user == null){
+            return new JSONResult("找不到"+id+"对应的用户");
+        }else {
+            return new JSONResult(user);
+        }
+    }
+
+    /**
+     * 编辑用户
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/users/edit",method = RequestMethod.POST)
+    @ResponseBody
+    public String editUser(User user){
+        userService.editUser(user);
         return "success";
 
     }
