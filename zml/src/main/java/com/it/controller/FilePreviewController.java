@@ -40,7 +40,9 @@ public class FilePreviewController {
             throw new NotFoundException();
         }
         FileInputStream inputStream =new FileInputStream(file);
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new InputStreamResource(inputStream));
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(new InputStreamResource(inputStream));
 
     }
 
