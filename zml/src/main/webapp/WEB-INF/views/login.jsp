@@ -17,7 +17,7 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="/static/plugins/iCheck/square/blue.css">
 </head>
-<body class="hold-transition login-page" style="background-image: url(/static/dist/img/credit/3.jpg)">
+<body class="hold-transition login-page" style="background-image: url(/static/dist/img/credit/1.jpg)">
 <div class="login-box">
     <div class="login-logo">
         <a href="/"><b>KaiSheng</b>CRM</a>
