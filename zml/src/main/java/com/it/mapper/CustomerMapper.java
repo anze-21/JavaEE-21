@@ -13,4 +13,10 @@ public interface CustomerMapper  {
     List<Customer> findByType(String Type);
     void save(Customer customer);
     List<Customer> findCompanyLikeName(String keyword);
+
+    List<Customer> findByCompanyId(Integer id);
+
+    void update(Customer cust);
+
+    void del(Integer id);
 }

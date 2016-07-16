@@ -2,15 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.it.mapper.CustomerMapper">
     <cache/>
+
     <select id="findByParam" resultType="Customer">
         SELECT * FROM t_customer
         <where>
             <if test="userid != null and userid != ''">
-                userid =#{userid} or (userid == '' or userid is null)
+                (userid = #{userid} or (userid = '' or userid is null))
+            </if>
+            <if test="keyword != null and keyword !=''">
+                and (name like concat('%',#{keyword},'%') or pinyin like concat('%',#{keyword},'%') or tel like concat('%',#{keyword},'%'))
             </if>
         </where>
+        order by id desc
         limit ${start},${length}
-
     </select>
     <select id="count" resultType="long">
         SELECT count(*) FROM  t_customer
@@ -19,16 +23,19 @@
         SELECT COUNT(*) FROM t_customer
         <where>
             <if test="userid != null and userid != ''">
-                userid =#{userid} or (userid == '' or userid is null)
+                userid = #{userid} or (userid = '' or userid is null)
+            </if>
+            <if test="keyword != null and keyword !=''">
+                and (name like concat('%',#{keyword},'%') or pinyin like concat('%',#{keyword},'%') or tel like concat('%',#{keyword},'%'))
             </if>
         </where>
     </select>
-    <select id="findById"  resultType="Customer" parameterType="int">
+    <select id="findById"  resultType="Customer">
         SELECT * FROM  t_customer
         WHERE  id =#{id}
 
     </select>
-    <select id="findByType" resultType="Customer" parameterType="string">
+    <select id="findByType" resultType="Customer">
         SELECT * FROM  t_customer
         WHERE  type =#{type}
 
@@ -44,6 +51,19 @@
         WHERE type = 'company' and name like concat('%',#{keyword},'%')
 
     </select>
-
+    <select id="findByCompanyId" resultType="Customer" >
+        SELECT * FROM  t_customer
+        WHERE companyid = #{id}
+    </select>
+    <update id="update" parameterType="Customer">
+        UPDATE t_customer set name = #{name},tel = #{tel},weixin = #{weixin},address = #{address},email = #{email},userid = #{userid},
+        pinyin = #{pinyin},companyid = #{companyid},companyname = #{companyname},
+        level =#{level}
+        where id = #{id}
+    </update>
+<delete id="del">
+    DELETE FROM t_customer
+    WHERE id =#{id}
+</delete>
 
 </mapper>
