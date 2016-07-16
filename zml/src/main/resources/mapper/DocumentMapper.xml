@@ -18,6 +18,6 @@
     </select>
     <select id="findById" resultType="Document" parameterType="int">
         SELECT * FROM  t_document
-        WHERE  id = ${id}
+        WHERE  id = #{id}
     </select>
 </mapper>

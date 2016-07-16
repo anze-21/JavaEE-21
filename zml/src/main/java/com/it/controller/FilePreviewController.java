@@ -33,7 +33,7 @@ public class FilePreviewController {
 //        outputStream.close();
 //        inputStream.close();
 //    }
-    @RequestMapping("/preview/{fileName")
+    @RequestMapping("/preview/{fileName}")
     public ResponseEntity<InputStreamResource> previewFile(@PathVariable String fileName) throws IOException {
         File file =new File(filePath,fileName);
         if(!file.exists()){

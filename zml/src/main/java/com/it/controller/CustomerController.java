@@ -5,6 +5,7 @@ import com.it.dto.DataTablesResult;
 import com.it.pojo.Customer;
 import com.it.service.CustomerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,8 +20,10 @@ import java.util.Map;
 public class CustomerController {
     @Inject
     private CustomerService customerService;
+
     @RequestMapping(method = RequestMethod.GET)
-    public String list(){
+    public String list(Model model){
+        model.addAttribute("companyList",customerService.findAllCompany());
         return "/customer/list";
 
     }
@@ -42,4 +45,12 @@ public class CustomerController {
         return new DataTablesResult<>(draw,customerList,count,filterCount);
 
     }
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    @ResponseBody
+    public String save(Customer customer){
+        customerService.saveCustomer(customer);
+        return "success";
+
+    }
+
 }
