@@ -1,6 +1,7 @@
 package com.it.controller;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.ObjectArrays;
 import com.it.dto.DataTablesResult;
 import com.it.pojo.Customer;
 import com.it.service.CustomerService;
@@ -50,13 +51,25 @@ public class CustomerController {
     }
 
     /**
-     * ?????
+     * 显示所有公司信息
      * @return
      */
     @RequestMapping(value = "/company.json",method = RequestMethod.GET)
     @ResponseBody
     public List<Customer> showAllCompanyJson(){
         return customerService.findAllCompany();
+    }
+
+    /**
+     * 编辑客户
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/edit/{id:\\d+}.json",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> editCustomer(@PathVariable Integer id){
+        
+
     }
 
 
