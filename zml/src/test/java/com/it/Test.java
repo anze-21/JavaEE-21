@@ -26,7 +26,7 @@ public class Test {
 //        format.setVCharType(HanyuPinyinVCharType.WITH_V);//让u使用v来表示
 //        String result = PinyinHelper.toHanYuPinyinString("驴", format, ",", true);
 //        System.out.println(result);
-
+        //生成二维码
         BitMatrix bitMatrix =new MultiFormatWriter().encode("Hello", BarcodeFormat.QR_CODE,
         200,200);
         MatrixToImageWriter.writeToStream(bitMatrix,"png",new FileOutputStream("D:/qr.png"));
