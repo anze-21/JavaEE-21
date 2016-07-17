@@ -37,6 +37,9 @@
         SELECT * FROM t_user WHERE id = #{id}
 
     </select>
+    <select id="findAll" resultType="User">
+        SELECT * FROM t_user
+    </select>
 
     <select id="findByParam" resultType="User">
         SELECT t_user.*,t_role.id as 'role.id',t_role.rolename as 'role.rolename' FROM t_user

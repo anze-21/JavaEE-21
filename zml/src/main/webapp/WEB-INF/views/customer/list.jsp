@@ -253,7 +253,7 @@
                 {
                     "data": function (row) {
                         return "<a href='javascript:;' rel='" + row.id + "'class='editLink'>编辑</a>       "<shiro:hasRole name="经理"> + "<a href='javascript:;' rel='" + row.id + "' class='delLink'>删除</a>"</shiro:hasRole>
-                        
+
                     }
                 }
 

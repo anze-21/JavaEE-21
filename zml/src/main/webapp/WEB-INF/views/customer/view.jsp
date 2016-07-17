@@ -57,6 +57,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </c:choose>
                         ${customer.name}
                     </h3>
+                    <div class="box-tools">
+                        <c:if test="${not empty customer.userid}">
+                            <button class="btn btn-danger btn-xs" id="openCust">公开客户</button>
+                            <button class="btn btn-info btn-xs" id="moveCust">转移客户</button>
+                        </c:if>
+                    </div>
                 </div>
                 <div class="box-body">
                     <table class="table">
@@ -80,6 +86,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <td colspan="5"><a href="/customer/${customer.companyid}">${customer.companyname}</a>
                                 </td>
                             </tr>
+                        </c:if>
+                        <c:if test="${not empty customerList}">
+                            <tr>
+                                <td>关联客户</td>
+                                <td colspan="5">
+                                    <c:forEach items="${customerList}" var="cust">
+                                        <a href="/customer/${cust.id}">${cust.name}</a>
+                                    </c:forEach>
+                                </td>
+                            </tr>
+
                         </c:if>
                     </table>
                 </div>
@@ -117,8 +134,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper -->
+<div class="modal fade" id="moveModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">转移客户</h4>
 
-<!-- REQUIRED JS SCRIPTS -->
+            </div>
+            <div class="modal-body">
+                <form id="moveForm" action="/customer/move" method="post">
+                    <input type="hidden" name="id" value="${customer.id}">
+                    <div class="form-group" id="editCompanyList">
+                        <label>请选择转入员工姓名</label>
+                        <select name="userid" class="form-control">
+                            <c:forEach items="${userList}" var="user">
+                                <option value="${user.id}">${user.realname}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="moveBtn">保存</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 <!-- jQuery 2.2.0 -->
 <script src="/static/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -126,10 +173,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/dist/js/app.min.js"></script>
+<script>
+    $(function () {
+        //公开客户
+        $("#openCust").click(function () {
+            if (confirm("确定要公开客户吗")) {
+                var id =${customer.id};
+                window.location.href = "/customer/open/" + id;
+            }
+        });
+        //转移客户
+        $("#moveCust").click(function(){
+            $("#moveModal").modal({
+                show:true,
+                backdrop:'static',
+                keyboard:false
+            });
+        });
+        $("#moveBtn").click(function(){
+            $("#moveForm").submit();
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
+        });
+    });
+
+
+</script>
 </body>
 </html>

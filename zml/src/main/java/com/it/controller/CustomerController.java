@@ -3,8 +3,13 @@ package com.it.controller;
 import com.google.common.collect.Maps;
 import com.google.common.collect.ObjectArrays;
 import com.it.dto.DataTablesResult;
+import com.it.exception.ForbiddenException;
+import com.it.exception.NotFoundException;
 import com.it.pojo.Customer;
+import com.it.pojo.User;
 import com.it.service.CustomerService;
+import com.it.service.UserService;
+import com.it.util.ShiroUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +25,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+    @Inject
+    private UserService userService;
     @Inject
     private CustomerService customerService;
 
@@ -70,7 +77,7 @@ public class CustomerController {
     public Map<String,Object> editCustomer(@PathVariable Integer id){
         Customer customer =customerService.findCustomerById(id);
         Map<String,Object> result =Maps.newHashMap();
-        if(customer ==null){
+        if(customer == null){
             result.put("state","error");
             result.put("message","找不到对应的客户");
         }else {
@@ -120,5 +127,73 @@ public class CustomerController {
         return "success";
 
     }
+
+    /**
+     * 显示客户信息
+     *
+     */
+    @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
+    public String viewCustomer(@PathVariable Integer id,Model model){
+        Customer customer =customerService.findCustomerById(id);
+        if(customer == null){
+            throw new NotFoundException();
+        }
+        if(customer.getUserid() !=null && !customer.getUserid().equals(ShiroUtil.getCurrentUserID()) && !ShiroUtil.isManager()){
+            throw new NotFoundException();
+
+        }
+        model.addAttribute("customer",customer);
+
+        if(customer.getType().equals(Customer.CUSTOMER_TYPE_COMPANY)){
+            List<Customer> customerList =customerService.findCustomerByCompanyId(id);
+            model.addAttribute("customerList",customerList);
+        }
+        //加载所有员工
+        List<User> userList =userService.findAllUser();
+        model.addAttribute("userList",userList);
+        return "/customer/view";
+
+    }
+    /**
+     * 公开客户
+     *
+     */
+    @RequestMapping(value = "/open{id:\\d+}",method=RequestMethod.GET)
+    public String openCustomer(@PathVariable Integer id ){
+        Customer customer =customerService.findCustomerById(id);
+        if(customer ==null){
+            throw new NotFoundException();
+        }
+        if(customer.getUserid() !=null && !customer.getUserid().equals(ShiroUtil.getCurrentUserID()) && !ShiroUtil.isManager()){
+           throw new ForbiddenException();
+
+        }
+        customerService.openCustomer(customer);
+        return "redirect:/customer/"+id;
+
+    }
+    /**
+     * 转移客户
+     */
+    @RequestMapping(value = "/move",method = RequestMethod.POST)
+    public String moveCust(Integer id ,Integer userid){
+        Customer customer =customerService.findCustomerById(id);
+        if(customer == null){
+            throw new NotFoundException();
+        }
+        if(customer.getUserid() != null && !customer.getUserid().equals(ShiroUtil.getCurrentUserID()) && !ShiroUtil.isManager()){
+            throw new NotFoundException();
+        }
+        customerService.moveCust(customer,userid);
+        return "redirect:/customer";
+
+    }
+
+
+
+
+
+
+
 
 }
