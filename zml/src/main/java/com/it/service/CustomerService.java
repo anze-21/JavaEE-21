@@ -5,6 +5,7 @@ import com.it.mapper.CustomerMapper;
 import com.it.pojo.Customer;
 import com.it.util.ShiroUtil;
 import com.it.util.Strings;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -166,5 +167,35 @@ public class CustomerService {
     public void moveCust(Customer customer, Integer userid) {
         customer.setUserid(userid);
         customerMapper.update(customer);
+    }
+
+
+    /**
+     * 将客户信息生成MECard格式
+     * @param id
+     * @return
+     */
+    public String makeMeCard(Integer id) {
+        Customer customer =customerMapper.findById(id);
+
+        StringBuilder mecard =new StringBuilder("MECARD:");
+        if(StringUtils.isNotEmpty(customer.getName())){
+            mecard.append("N:"+customer.getName()+";");
+        }
+        if(StringUtils.isNotEmpty(customer.getTel())){
+            mecard.append("TEL:"+customer.getTel()+";");
+        }
+        if(StringUtils.isNotEmpty(customer.getEmail())){
+            mecard.append("EMAIL:"+customer.getEmail()+";");
+
+        }
+        if(StringUtils.isNotEmpty(customer.getAddress())){
+            mecard.append("ADR:"+customer.getAddress()+";");
+        }
+        if(StringUtils.isNotEmpty(customer.getCompanyname())){
+            mecard.append("ORG:"+customer.getCompanyname()+";");
+        }
+        mecard.append(";");
+        return mecard.toString();
     }
 }

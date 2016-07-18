@@ -115,6 +115,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <%--col-md-8 end--%>
                 <div class="col-md-4">
+                    <!--电子名片-->
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-qrcode"></i>电子名片</h3>
+                        </div>
+                        <div class="box-body" style="text-align: center;">
+                            <img src="/customer/qrcode/${customer.id}.png" aria-hidden="">
+                        </div>
+                    </div>
+                    <!--代办事项-->
                     <div class="box box-default">
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="fa fa-calendar-check-o"></i> 代办事项</h3>
@@ -126,7 +136,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <%--col-md-4 end--%>
             </div>
-
 
         </section>
         <!-- /.content -->
@@ -183,14 +192,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
         });
         //转移客户
-        $("#moveCust").click(function(){
+        $("#moveCust").click(function () {
             $("#moveModal").modal({
-                show:true,
-                backdrop:'static',
-                keyboard:false
+                show: true,
+                backdrop: 'static',
+                keyboard: false
             });
         });
-        $("#moveBtn").click(function(){
+        $("#moveBtn").click(function () {
             $("#moveForm").submit();
 
         });
