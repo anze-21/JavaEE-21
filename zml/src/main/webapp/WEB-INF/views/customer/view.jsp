@@ -116,9 +116,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <%--col-md-8 end--%>
                 <div class="col-md-4">
                     <!--电子名片-->
-                    <div class="box box-default">
+                    <%--<div class="box box-default">--%>
+                    <!--让客户显示页面中的电子名片box默认是收缩状态-->
+                    <div class="box box-default collapsed-box">
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="fa fa-qrcode"></i>电子名片</h3>
+                            <div class="box-tools">
+                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
+
+                            </div>
                         </div>
                         <div class="box-body" style="text-align: center;">
                             <img src="/customer/qrcode/${customer.id}.png" aria-hidden="">
