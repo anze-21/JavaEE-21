@@ -35,6 +35,13 @@ public class SalesController {
         model.addAttribute("customerList",customerService.findAllCustomer());
         return "sales/list";
     }
+
+    /**
+     * 查看销售计划详情
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
     public String viewSales(@PathVariable Integer id,Model model){
         Sales sales =salesService.findSalesById(id);
@@ -90,6 +97,19 @@ public class SalesController {
         salesService.saveSales(sales);
         return "success";
 
+
+
+    }
+
+    /**
+     * 保存新的跟进日志
+     * @param salesLog
+     * @return
+     */
+    @RequestMapping(value = "/log/new",method = RequestMethod.POST)
+    public String saveLog(SalesLog salesLog){
+        salesService.saveLog(salesLog);
+        return "redirect:/sales/"+salesLog.getSalesid();
 
 
     }

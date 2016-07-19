@@ -96,4 +96,13 @@ public class SalesService {
     public List<SalesLog> findSalesLogById(Integer salesId) {
         return salesLogMapper.findBySalesId(salesId);
     }
+
+    /**
+     * 保存新的跟进日志
+     * @param salesLog
+     */
+    public void saveLog(SalesLog salesLog) {
+        salesLog.setType(SalesLog.getLogTypeInput());
+        salesLogMapper.save(salesLog);
+    }
 }
