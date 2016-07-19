@@ -2,9 +2,13 @@ package com.it.controller;
 
 import com.google.common.collect.Maps;
 import com.it.dto.DataTablesResult;
+import com.it.exception.ForbiddenException;
+import com.it.exception.NotFoundException;
 import com.it.pojo.Sales;
+import com.it.pojo.SalesLog;
 import com.it.service.CustomerService;
 import com.it.service.SalesService;
+import com.it.util.ShiroUtil;
 import com.it.util.Strings;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +36,18 @@ public class SalesController {
         return "sales/list";
     }
     @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
-    public String viewSales(@PathVariable Integer id){
+    public String viewSales(@PathVariable Integer id,Model model){
+        Sales sales =salesService.findSalesById(id);
+        if(sales == null){
+            throw new NotFoundException();
+        }
+        if(!sales.getUserid().equals(ShiroUtil.getCurrentUserID()) && !ShiroUtil.isManager()){
+            throw new ForbiddenException();
+        }
+        model.addAttribute("sales",sales);
+        //查找当前客户的跟进记录
+        List<SalesLog> salesLogs = salesService.findSalesLogById(id);
+        model.addAttribute(salesLogs);
         return "sales/view";
 
     }

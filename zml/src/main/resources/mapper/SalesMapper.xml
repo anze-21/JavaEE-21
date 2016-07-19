@@ -68,4 +68,8 @@
         SELECT * FROM  t_sales WHERE  custid = #{custId}
         order by id desc
     </select>
+    <select id="findById" resultType="com.it.pojo.Sales">
+      SELECT * FROM t_sales
+      WHERE  id = #{id}
+    </select>
 </mapper>

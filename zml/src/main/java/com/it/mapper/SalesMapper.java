@@ -1,6 +1,7 @@
 package com.it.mapper;
 
 import com.it.pojo.Sales;
+import com.it.pojo.SalesLog;
 
 import java.util.List;
 import java.util.Map;
@@ -13,4 +14,7 @@ public interface SalesMapper {
     void save(Sales sales);
 
     List<Sales> findByCustId(Integer custId);
+
+    Sales findById(Integer id);
+
 }
