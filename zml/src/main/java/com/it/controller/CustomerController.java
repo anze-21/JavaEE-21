@@ -12,8 +12,10 @@ import com.it.dto.DataTablesResult;
 import com.it.exception.ForbiddenException;
 import com.it.exception.NotFoundException;
 import com.it.pojo.Customer;
+import com.it.pojo.Sales;
 import com.it.pojo.User;
 import com.it.service.CustomerService;
+import com.it.service.SalesService;
 import com.it.service.UserService;
 import com.it.util.ShiroUtil;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,8 @@ import java.util.Map;
 public class CustomerController {
     @Inject
     private UserService userService;
+    @Inject
+    private SalesService salesService;
     @Inject
     private CustomerService customerService;
 
@@ -159,6 +163,9 @@ public class CustomerController {
         //加载所有员工
         List<User> userList = userService.findAllUser();
         model.addAttribute("userList", userList);
+        //加载客户对应的销售机会列表
+        List<Sales> salesList =salesService.findSalesByCustId(id);
+        model.addAttribute("salesList",salesList);
         return "/customer/view";
 
     }

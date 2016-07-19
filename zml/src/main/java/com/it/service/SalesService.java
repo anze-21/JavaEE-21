@@ -68,4 +68,14 @@ public class SalesService {
         salesLog.setSalesid(sales.getId());
         salesLogMapper.save(salesLog);
     }
+
+    /**
+     * 查找客户ID对应的所有销售机会
+     * @param custId
+     * @return
+     */
+
+    public List<Sales> findSalesByCustId(Integer custId) {
+        return salesMapper.findByCustId(custId);
+    }
 }

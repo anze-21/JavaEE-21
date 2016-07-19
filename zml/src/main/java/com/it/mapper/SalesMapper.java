@@ -11,4 +11,6 @@ public interface SalesMapper {
     Long countByParam(Map<String, Object> params);
 
     void save(Sales sales);
+
+    List<Sales> findByCustId(Integer custId);
 }

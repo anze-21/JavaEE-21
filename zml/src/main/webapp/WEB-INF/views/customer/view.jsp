@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -106,10 +107,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="col-md-8">
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><i class="fa fa-list"></i> 项目列表</h3>
+                            <h3 class="box-title"><i class="fa fa-list"></i> 销售机会</h3>
                         </div>
                         <div class="box-body">
-                            <h5>暂无项目</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>机会名称</th>
+                                        <th>价值</th>
+                                        <th>当前进度</th>
+                                        <th>最后跟进时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${salesList}" var="sales">
+                                        <tr>
+                                            <td><a href="/sales/${sales.id}" target="_blank">${sales.name}</a></td>
+                                            <%--<td>￥<fmt:formatNumber value="${sales.price}"/></td>--%>
+                                            <%--<td>${sales.progress}</td>--%>
+                                            <td>${sales.lasttime}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -122,12 +143,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="fa fa-qrcode"></i>电子名片</h3>
                             <div class="box-tools">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"><i
+                                        class="fa fa-plus"></i></button>
 
                             </div>
                         </div>
                         <div class="box-body" style="text-align: center;">
-                            <img src="/customer/qrcode/${customer.id}.png" aria-hidden="">
+                            <img src="/customer/qrcode/${customer.id}.png" alt="">
                         </div>
                     </div>
                     <!--代办事项-->

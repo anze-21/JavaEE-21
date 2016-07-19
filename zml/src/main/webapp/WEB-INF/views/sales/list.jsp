@@ -83,40 +83,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </tr>
 
                         </thead>
-                        <%--<tbody>--%>
-                        <%--<tr>--%>
-                        <%--<td><a href="/sales/1">购买SSD硬盘500块</a></td>--%>
-                        <%--<td><a href="">FaceBook</a></td>--%>
-                        <%--<td>￥50000</td>--%>
-                        <%--<td>初次接触</td>--%>
-                        <%--<td>2016-07-15</td>--%>
-                        <%--<td>王若诗</td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                        <%--<td><a href="">OLED显示器10台</a></td>--%>
-                        <%--<td><a href="">Google中国</a></td>--%>
-                        <%--<td>￥70000</td>--%>
-                        <%--<td><span class="label label-danger">交易搁置</span></td>--%>
-                        <%--<td>2016-06-12</td>--%>
-                        <%--<td>王若诗</td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                        <%--<td><a href="">DELL塔式服务器10台</a></td>--%>
-                        <%--<td><a href="">Mark</a></td>--%>
-                        <%--<td>￥100000</td>--%>
-                        <%--<td>发送报价</td>--%>
-                        <%--<td>2016-07-12</td>--%>
-                        <%--<td>王若诗</td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                        <%--<td><a href="">OLED显示器100台</a></td>--%>
-                        <%--<td><a href="">张丽茹</a></td>--%>
-                        <%--<td>￥700000</td>--%>
-                        <%--<td><span class="label label-success">完成交易</span></td>--%>
-                        <%--<td>2016-06-12</td>--%>
-                        <%--<td>王若诗</td>--%>
-                        <%--</tr>--%>
-                        <%--</tbody>--%>
+                        <tbody>
+                        <tr>
+                        <td><a href="/sales/1">购买SSD硬盘500块</a></td>
+                        <td><a href="">FaceBook</a></td>
+                        <td>￥50000</td>
+                        <td>初次接触</td>
+                        <td>2016-07-15</td>
+                        <td>王若诗</td>
+                        </tr>
+                        <tr>
+                        <td><a href="">OLED显示器10台</a></td>
+                        <td><a href="">Google中国</a></td>
+                        <td>￥70000</td>
+                        <td><span class="label label-danger">交易搁置</span></td>
+                        <td>2016-06-12</td>
+                        <td>王若诗</td>
+                        </tr>
+                        <tr>
+                        <td><a href="">DELL塔式服务器10台</a></td>
+                        <td><a href="">Mark</a></td>
+                        <td>￥100000</td>
+                        <td>发送报价</td>
+                        <td>2016-07-12</td>
+                        <td>王若诗</td>
+                        </tr>
+                        <tr>
+                        <td><a href="">OLED显示器100台</a></td>
+                        <td><a href="">张丽茹</a></td>
+                        <td>￥700000</td>
+                        <td><span class="label label-success">完成交易</span></td>
+                        <td>2016-06-12</td>
+                        <td>王若诗</td>
+                        </tr>
+                        </tbody>
                         <tbody></tbody>
                     </table>
                 </div>
