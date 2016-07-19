@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -123,9 +123,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <c:forEach items="${salesList}" var="sales">
                                         <tr>
                                             <td><a href="/sales/${sales.id}" target="_blank">${sales.name}</a></td>
-                                            <%--<td>￥<fmt:formatNumber value="${sales.price}"/></td>--%>
+                                            <td>￥<fmt:formatNumber value="${sales.price}"/></td>
                                             <%--<td>${sales.progress}</td>--%>
-                                            <td>${sales.lasttime}</td>
+                                            <%--<td>${sales.lasttime}</td>--%>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

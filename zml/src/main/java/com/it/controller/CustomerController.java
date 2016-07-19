@@ -173,7 +173,7 @@ public class CustomerController {
     /**
      * 公开客户
      */
-    @RequestMapping(value = "/open{id:\\d+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/open/{id:\\d+}", method = RequestMethod.GET)
     public String openCustomer(@PathVariable Integer id) {
         Customer customer = customerService.findCustomerById(id);
         if (customer == null) {

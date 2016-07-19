@@ -65,7 +65,7 @@
     DELETE FROM t_customer
     WHERE id =#{id}
 </delete>
-    <select id="findAll" resultType="Customer">
+    <select id="findAll" resultType="Customer" >
         SELECT * FROM t_customer
         <where>
             <if test="userid !=null and userid !=''">

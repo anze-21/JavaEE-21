@@ -19,6 +19,13 @@ public class Document implements Serializable{
     private Integer fid;
     private String contexttype;
 
+    public String getContexttype() {
+        return contexttype;
+    }
+
+    public void setContexttype(String contexttype) {
+        this.contexttype = contexttype;
+    }
 
     public static String getTypeDir() {
         return TYPE_DIR;
@@ -100,12 +107,5 @@ public class Document implements Serializable{
         this.fid = fid;
     }
 
-    public String getContexttype() {
-        return contexttype;
-    }
-
-    public void setContexttype(String contexttype) {
-        this.contexttype = contexttype;
-    }
 
 }
