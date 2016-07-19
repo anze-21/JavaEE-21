@@ -72,4 +72,8 @@
       SELECT * FROM t_sales
       WHERE  id = #{id}
     </select>
+    <update id="update" >
+        UPDATE t_sales SET lasttime = #{lasttime},successtime =#{successtime},progess=#{progess}
+        where id =#{id}
+    </update>
 </mapper>
