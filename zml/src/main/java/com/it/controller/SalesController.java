@@ -5,6 +5,7 @@ import com.it.dto.DataTablesResult;
 import com.it.exception.ForbiddenException;
 import com.it.exception.NotFoundException;
 import com.it.pojo.Sales;
+import com.it.pojo.SalesFile;
 import com.it.pojo.SalesLog;
 import com.it.service.CustomerService;
 import com.it.service.SalesService;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -52,12 +55,16 @@ public class SalesController {
             throw new ForbiddenException();
         }
         model.addAttribute("sales",sales);
-        //查找当前客户的跟进记录
-        List<SalesLog> salesLogs = salesService.findSalesLogById(id);
+        //查找当前机会的跟进记录
+        List<SalesLog> salesLogs = salesService.findSalesLogBySalesId(id);
         model.addAttribute(salesLogs);
+        //查找当前机会的文件列表
+        List<SalesFile> salesFileList = salesService.findSalesFileBySalesId(id);
+        model.addAttribute(salesFileList);
         return "sales/view";
 
     }
+
     @RequestMapping(value = "/load",method = RequestMethod.GET)
     @ResponseBody
     public DataTablesResult<Sales> load(HttpServletRequest request){
@@ -124,6 +131,18 @@ public class SalesController {
     public String editProgress(Integer id,String progress){
         salesService.editSalesProgress(id,progress);
         return "redirect:/sales"+id;
+
+    }
+
+    /**
+     * 上传资料文件
+     * @param file
+     * @param salesid
+     * @return
+     */
+    public String updateFile(MultipartFile file,Integer salesid) throws IOException {
+       salesService.updateFile(file.getInputStream(),file.getOriginalFilename(),file.getContentType(),file.getSize(),salesid);
+        return "success";
 
     }
 

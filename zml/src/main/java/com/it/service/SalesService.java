@@ -6,16 +6,20 @@ import com.it.mapper.SalesFileMapper;
 import com.it.mapper.SalesLogMapper;
 import com.it.mapper.SalesMapper;
 import com.it.pojo.Sales;
+import com.it.pojo.SalesFile;
 import com.it.pojo.SalesLog;
 import com.it.util.ShiroUtil;
+import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.UUID;
 
 @Named
 public class SalesService {
@@ -27,26 +31,28 @@ public class SalesService {
     private SalesLogMapper salesLogMapper;
     @Inject
     private CustomerMapper customerMapper;
+    @Value("${imagePath}")
+    private String savePath;
 
     public List<Sales> findByParam(Map<String, Object> params) {
-        if(ShiroUtil.isEmployee()){
-            params.put("userid",ShiroUtil.getCurrentUserID());
+        if (ShiroUtil.isEmployee()) {
+            params.put("userid", ShiroUtil.getCurrentUserID());
         }
         return salesMapper.findByParam(params);
     }
 
 
     public Long count() {
-        Map<String,Object> params = Maps.newHashMap();
-        if(ShiroUtil.isEmployee()){
-            params.put("userid",ShiroUtil.getCurrentUserID());
+        Map<String, Object> params = Maps.newHashMap();
+        if (ShiroUtil.isEmployee()) {
+            params.put("userid", ShiroUtil.getCurrentUserID());
         }
         return salesMapper.countByParam(params);
     }
 
     public Long countByParam(Map<String, Object> params) {
-        if(ShiroUtil.isEmployee()){
-            params.put("userid",ShiroUtil.getCurrentUserID());
+        if (ShiroUtil.isEmployee()) {
+            params.put("userid", ShiroUtil.getCurrentUserID());
         }
         return salesMapper.countByParam(params);
 
@@ -54,6 +60,7 @@ public class SalesService {
 
     /**
      * 新增销售机会
+     *
      * @param sales
      */
     @Transactional
@@ -72,6 +79,7 @@ public class SalesService {
 
     /**
      * 查找客户ID对应的所有销售机会
+     *
      * @param custId
      * @return
      */
@@ -82,6 +90,7 @@ public class SalesService {
 
     /**
      * 根据ID查找销售机会
+     *
      * @param id
      * @return
      */
@@ -91,15 +100,17 @@ public class SalesService {
 
     /**
      * 根据销售机会ID查找对应的跟进日志
+     *
      * @param salesId
      * @return
      */
-    public List<SalesLog> findSalesLogById(Integer salesId) {
+    public List<SalesLog> findSalesLogBySalesId(Integer salesId) {
         return salesLogMapper.findBySalesId(salesId);
     }
 
     /**
      * 保存新的跟进日志
+     *
      * @param salesLog
      */
     public void saveLog(SalesLog salesLog) {
@@ -109,25 +120,76 @@ public class SalesService {
 
     /**
      * 修改机会的进度
+     *
      * @param id
      * @param progress
      */
-@Transactional
+    @Transactional
     public void editSalesProgress(Integer id, String progress) {
-    Sales sales =salesMapper.findById(id);
-    sales.setProgess(progress);
-    //修改最后跟进时间
-    sales.setLasttime(DateTime.now().toString("yyyy-MM-dd"));
-    //判断进度是否是【完成交易】
-    if("完成交易".equals(progress)) {
-        sales.setSuccesstime(DateTime.now().toString("yyyy-MM-dd"));
+        Sales sales = salesMapper.findById(id);
+        sales.setProgess(progress);
+        //修改最后跟进时间
+        sales.setLasttime(DateTime.now().toString("yyyy-MM-dd"));
+        //判断进度是否是【完成交易】
+        if ("完成交易".equals(progress)) {
+            sales.setSuccesstime(DateTime.now().toString("yyyy-MM-dd"));
+        }
+        salesMapper.update(sales);
+        //添加跟进日志
+        SalesLog salesLog = new SalesLog();
+        salesLog.setType(SalesLog.LOG_TYPE_AUTO);
+        salesLog.setContext(ShiroUtil.getCurrentRealName() + "更改进度为：" + progress);
+        salesLog.setSalesid(sales.getId());
+        salesLogMapper.save(salesLog);
     }
-    salesMapper.update(sales);
-    //添加跟进日志
-    SalesLog salesLog =new SalesLog();
-    salesLog.setType(SalesLog.LOG_TYPE_AUTO);
-    salesLog.setContext(ShiroUtil.getCurrentRealName() + "更改进度为："+progress);
-    salesLog.setSalesid(sales.getId());
-    salesLogMapper.save(salesLog);
+
+    /**
+     * 根据机会ID查找对应的文件列表
+     *
+     * @param salesId
+     * @return
+     */
+    public List<SalesFile> findSalesFileBySalesId(Integer salesId) {
+        return salesFileMapper.findBySalesId(salesId);
     }
+
+    /**
+     * 保存机会相关资料文件
+     *
+     * @param inputStream
+     * @param originalFilename
+     * @param contentType
+     * @param size
+     * @param salesid
+     */
+    @Transactional
+    public void updateFile(InputStream inputStream, String originalFilename, String contentType, long size, Integer salesid) {
+        String newName = UUID.randomUUID().toString();
+        if (originalFilename.lastIndexOf(".") != -1) {
+            newName += originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(new File(savePath, newName));
+            IOUtils.copy(inputStream, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        SalesFile salesFile = new SalesFile();
+        salesFile.setSalesid(salesid);
+        salesFile.setContenttype(contentType);
+        salesFile.setFilename(newName);
+        salesFile.setName(originalFilename);
+        salesFile.setSize(size);
+
+        salesFileMapper.save(salesFile);
+
+    }
+
+
 }
