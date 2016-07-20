@@ -13,5 +13,13 @@
         where  salesid = #{salesId}
         order by id desc
     </select>
+    <delete id="del">
+        DELETE FROM t_sales_log
+        WHERE id in (
+        <foreach collection="list"  item="log" separator="," >
+            #{log.id}
+        </foreach>
+        )
+    </delete>
 
 </mapper>

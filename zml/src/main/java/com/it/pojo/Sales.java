@@ -10,11 +10,19 @@ public class Sales implements Serializable {
     private String name;
     private Float price;
     private String custname;
-    private String progess;
+    private String progress;
     private Timestamp createtime;
     private String lasttime;
     private String username;
     private String successtime;
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
+    }
 
     public Integer getId() {
         return id;
@@ -62,14 +70,6 @@ public class Sales implements Serializable {
 
     public void setCustname(String custname) {
         this.custname = custname;
-    }
-
-    public String getProgess() {
-        return progess;
-    }
-
-    public void setProgess(String progess) {
-        this.progess = progess;
     }
 
     public Timestamp getCreatetime() {

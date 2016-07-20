@@ -2,8 +2,6 @@ package com.it.mapper;
 
 import com.it.pojo.Customer;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +22,8 @@ public interface CustomerMapper  {
     void del(Integer id);
 
     List<Customer> findAll(@Param("userid") Integer userid);
+    Long findNewCustomerCount(@Param("start") String start,@Param("end") String end);
+
+
 }
+

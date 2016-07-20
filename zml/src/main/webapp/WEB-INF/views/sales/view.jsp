@@ -1,6 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -23,8 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="/static/plugins/simditor/styles/simditor.css">
     <link rel="stylesheet" href="/static/plugins/webuploader/webuploader.css">
     <style>
-        .timeline > li.timeline-item {
-            box-shadom: none;
+        .timeline > li > .timeline-item {
+            box-shadow: none;
             -webkit-box-shadow: none;
         }
 
@@ -42,7 +42,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper">
 
     <%@include file="../include/mainHeader.jsp" %>
-    <%--<%@include file="../include/leftSide.jsp"%>--%>
     <jsp:include page="../include/leftSide.jsp">
         <jsp:param name="menu" value="sales"/>
     </jsp:include>
@@ -51,9 +50,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-
-            </h1>
+            <h1>　</h1>
             <ol class="breadcrumb">
                 <li><a href="/sales"><i class="fa fa-dashboard"></i> 机会列表</a></li>
                 <li class="active">${sales.name}</li>
@@ -62,17 +59,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main content -->
         <section class="content">
-
             <div class="box box-primary">
                 <div class="box-header">
-                    <%--<h3 class="box-title">购买SSD硬盘500块</h3>--%>
-                    <%--<div class="box-tools">--%>
-                    <%--<button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</button>--%>
-                    <%--</div>--%>
                     <h3 class="box-title">${sales.name}</h3>
                     <shiro:hasRole name="经理">
                         <div class="box-tools">
-                            <button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>删除</button>
+                            <button id="delBtn" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</button>
                         </div>
                     </shiro:hasRole>
                 </div>
@@ -88,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </tr>
                         <tr>
                             <td>当前进度</td>
-                            <td>${sales.progess} <a href="javascript:;" id="editProgress">修改</a></td>
+                            <td>${sales.progress} <a href="javascript:;" id="editProgress">修改</a></td>
                             <td>最后跟进时间</td>
                             <td>${empty sales.lasttime ? '无' : sales.lasttime}</td>
                         </tr>
@@ -110,12 +102,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         <div class="box-body">
                             <ul class="timeline">
-                                <%--<li>--%>
-                                <%--<i class="fa fa-commenting bg-aqua"></i>--%>
-                                <%--<div class="timeline-item">--%>
-                                <%--<span class="time"><i class="fa fa-clock-o"></i> 三分钟前</span>--%>
-                                <%--<div class="timeline-body">--%>
-                                <%--<p>给对方发送了电子合同，觉得报价有些高，让修改后再次发送。</p>--%>
                                 <c:forEach items="${salesLogList}" var="log">
                                     <li>
                                         <c:choose>
@@ -125,8 +111,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <c:otherwise>
                                                 <i class="fa fa-commenting bg-aqua"></i>
                                             </c:otherwise>
-
                                         </c:choose>
+
                                         <div class="timeline-item">
                                             <span class="time"><i class="fa fa-clock-o"></i> <span class="timeago"
                                                                                                    title="${log.createtime}"></span></span>
@@ -136,24 +122,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                     </li>
                                 </c:forEach>
-                                <%--<li>--%>
-                                <%--<i class="fa fa-history bg-yellow"></i>--%>
-                                <%--<div class="timeline-item">--%>
-                                <%--<span class="time"><i class="fa fa-clock-o"></i> 三分钟前</span>--%>
-                                <%--<h3 class="timeline-header no-border">--%>
-                                <%--将当前进度修改为：交易完成--%>
-                                <%--</h3>--%>
-                                <%--</div>--%>
-                                <%--</li>--%>
-                                <%--<li>--%>
-                                <%--<i class="fa fa-history bg-yellow"></i>--%>
-                                <%--<div class="timeline-item">--%>
-                                <%--<span class="time"><i class="fa fa-clock-o"></i> 五小时前</span>--%>
-                                <%--<h3 class="timeline-header no-border">--%>
-                                <%--李若诗 创建了该机会--%>
-                                <%--</h3>--%>
-                                <%--</div>--%>
-                                <%--</li>--%>
                                 <li>
                                     <i class="fa fa-clock-o bg-gray"></i>
                                 </li>
@@ -168,9 +136,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="fa fa-file-o"></i> 相关资料</h3>
                             <div class="box-tools">
-                                <div id="uploadBtn">
-                                    <span class="text"><i class="fa fa-upload"></i></span>
-                                </div>
+                                <div id="uploadBtn"><span class="text"><i class="fa fa-upload"></i></span></div>
                             </div>
                         </div>
                         <div class="box-body">
@@ -179,7 +145,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <li>暂无资料</li>
                                 </c:if>
                                 <c:forEach items="${salesFileList}" var="file">
-                                    <li><a href="">${file.name}</a></li>
+                                    <li><a href="/sales/file/${file.id}/download">${file.name}</a></li>
                                 </c:forEach>
                             </ul>
                         </div>
@@ -196,6 +162,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 </div>
             </div>
+
 
         </section>
         <!-- /.content -->
@@ -258,6 +225,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.2.0 -->
 <script src="/static/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -276,13 +244,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     $(function () {
         //相对时间
         $(".timeago").timeago();
+
         //在线编辑器
         var edit = new Simditor({
             textarea: $("#context"),
-            placeholder: '请输入跟进内容'
+            placeholder: '请输入跟进内容',
             toolbar: false
         });
-        //新跟进记录
+
+        //新增跟进记录
         $("#newLogBtn").click(function () {
             $("#newLogModal").modal({
                 show: true,
@@ -296,6 +266,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 edit.focus();
             }
         });
+
         //修改当前进度
         $("#editProgress").click(function () {
             $("#progressModal").modal({
@@ -306,8 +277,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $("#saveProgressBtn").click(function () {
             $("#progressForm").submit();
         });
+
         //上传文件
         var uploader = WebUploader.create({
+            swf: "/static/plugins/webuploader/Uploader.swf",
+            pick: "#uploadBtn",
+            server: "/sales/file/upload",
+            fileValL: "file",
             formData: {"salesid": "${sales.id}"},
             auto: true //选择文件后直接上传
         });
@@ -331,8 +307,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             ;
         });
 
+        <shiro:hasRole name="经理">
+        //删除销售机会
+        $("#delBtn").click(function () {
+            if (confirm("确定要删除该销售机会吗")) {
+                window.location.href = "/sales/del/${sales.id}";
+            }
+        });
+        </shiro:hasRole>
+
     });
 </script>
-
 </body>
 </html>

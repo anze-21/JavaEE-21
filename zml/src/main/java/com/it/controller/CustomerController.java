@@ -13,9 +13,11 @@ import com.it.exception.ForbiddenException;
 import com.it.exception.NotFoundException;
 import com.it.pojo.Customer;
 import com.it.pojo.Sales;
+import com.it.pojo.Task;
 import com.it.pojo.User;
 import com.it.service.CustomerService;
 import com.it.service.SalesService;
+import com.it.service.TaskService;
 import com.it.service.UserService;
 import com.it.util.ShiroUtil;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,8 @@ public class CustomerController {
     private SalesService salesService;
     @Inject
     private CustomerService customerService;
+    @Inject
+    private TaskService taskService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
@@ -164,8 +168,9 @@ public class CustomerController {
         List<User> userList = userService.findAllUser();
         model.addAttribute("userList", userList);
         //加载客户对应的销售机会列表
-        List<Sales> salesList =salesService.findSalesByCustId(id);
-        model.addAttribute("salesList",salesList);
+        List<Sales> salesList = salesService.findSalesByCustId(id);
+        model.addAttribute("salesList", salesList);
+        //代办事项列表
         return "/customer/view";
 
     }
@@ -222,4 +227,21 @@ public class CustomerController {
         outputStream.close();
 
     }
+
+    /**
+     * 给关联客户添加待办事项
+     *
+     * @param task
+     * @param hour
+     * @param min
+     * @return
+     */
+    @RequestMapping(value = "/task/new", method = RequestMethod.POST)
+    @ResponseBody
+    public String newTask(Task task, String hour, String min) {
+        taskService.saveTask(task, hour, min);
+        return "redirect:/customer/" + task.getCustid();
+    }
+
+
 }

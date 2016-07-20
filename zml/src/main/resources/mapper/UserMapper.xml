@@ -29,9 +29,14 @@
         where id =#{id}
     </update>
 
+    <!--<select id="findByUsername" resultType="com.it.pojo.User">-->
+    <!--select t_user.*,t_role.id as 'role.id',t_role.rolename as 'role.rolename' from t_user-->
+    <!--inner join t_role on t_user.roleid =t_role.id where t_user.username =#{username}-->
+    <!--</select>-->
+
     <select id="findByUsername" resultType="User">
-        select t_user.*,t_role.id as 'role.id',t_role.rolename as 'role.rolename' from t_user
-        inner join t_role on t_user.roleid =t_role.id where t_user.username =#{username}
+        SELECT t_user.*,t_role.id as 'role.id',t_role.rolename as 'role.rolename' FROM t_user
+        INNER JOIN t_role on t_user.roleid = t_role.id WHERE t_user.username = #{username}
     </select>
     <select id="findById" resultType="User">
         SELECT * FROM t_user WHERE id = #{id}
@@ -46,7 +51,7 @@
         INNER JOIN t_role on t_user.roleid = t_role.id
         <where>
             <if test="keyword != null and keyword != ''">
-                username LIKE concat('%',#{keyword},'%') or realname  like concat('%',#{keyword},'%')
+                username LIKE concat('%',#{keyword},'%') or realname like concat('%',#{keyword},'%')
             </if>
         </where>
         order by t_user.id desc
@@ -59,7 +64,7 @@
         SELECT count(*) FROM t_user
         <where>
             <if test="keyword != null and keyword != ''">
-                username LIKE concat('%',#{keyword},'%') or realname  like concat('%',#{keyword},'%')
+                username LIKE concat('%',#{keyword},'%') or realname like concat('%',#{keyword},'%')
             </if>
         </where>
     </select>

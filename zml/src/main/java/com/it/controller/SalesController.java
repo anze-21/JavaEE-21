@@ -11,6 +11,10 @@ import com.it.service.CustomerService;
 import com.it.service.SalesService;
 import com.it.util.ShiroUtil;
 import com.it.util.Strings;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -32,29 +36,32 @@ public class SalesController {
     private SalesService salesService;
     @Inject
     private CustomerService customerService;
+    @Value("${imagePath}")
+    private String savePath;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String list(Model model){
-        model.addAttribute("customerList",customerService.findAllCustomer());
+    public String list(Model model) {
+        model.addAttribute("customerList", customerService.findAllCustomer());
         return "sales/list";
     }
 
     /**
      * 查看销售计划详情
+     *
      * @param id
      * @param model
      * @return
      */
-    @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
-    public String viewSales(@PathVariable Integer id,Model model){
-        Sales sales =salesService.findSalesById(id);
-        if(sales == null){
+    @RequestMapping(value = "/{id:\\d+}", method = RequestMethod.GET)
+    public String viewSales(@PathVariable Integer id, Model model) {
+        Sales sales = salesService.findSalesById(id);
+        if (sales == null) {
             throw new NotFoundException();
         }
-        if(!sales.getUserid().equals(ShiroUtil.getCurrentUserID()) && !ShiroUtil.isManager()){
+        if (!sales.getUserid().equals(ShiroUtil.getCurrentUserID()) && !ShiroUtil.isManager()) {
             throw new ForbiddenException();
         }
-        model.addAttribute("sales",sales);
+        model.addAttribute("sales", sales);
         //查找当前机会的跟进记录
         List<SalesLog> salesLogs = salesService.findSalesLogBySalesId(id);
         model.addAttribute(salesLogs);
@@ -65,84 +72,128 @@ public class SalesController {
 
     }
 
-    @RequestMapping(value = "/load",method = RequestMethod.GET)
+    @RequestMapping(value = "/load", method = RequestMethod.GET)
     @ResponseBody
-    public DataTablesResult<Sales> load(HttpServletRequest request){
+    public DataTablesResult<Sales> load(HttpServletRequest request) {
         String draw = request.getParameter("draw");
-        String start =request.getParameter("start") ;
-        String length =request.getParameter("length");
+        String start = request.getParameter("start");
+        String length = request.getParameter("length");
         //query param
-        String name =request.getParameter("name");
+        String name = request.getParameter("name");
         name = Strings.toUTF8(name);
-        String progress =request.getParameter("progress");
-        progress =Strings.toUTF8(progress);
+        String progress = request.getParameter("progress");
+        progress = Strings.toUTF8(progress);
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
-        Map<String,Object> params = Maps.newHashMap();
-        params.put("start",start);
-        params.put("length",length);
-        params.put("name",name);
-        params.put("progress",progress);
-        params.put("startdate",startDate);
-        params.put("enddate",endDate);
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("start", start);
+        params.put("length", length);
+        params.put("name", name);
+        params.put("progress", progress);
+        params.put("startdate", startDate);
+        params.put("enddate", endDate);
 
-        List<Sales> salesList =salesService.findByParam(params);
+        List<Sales> salesList = salesService.findByParam(params);
         Long count = salesService.count();
         Long countParam = salesService.countByParam(params);
-        return new DataTablesResult<>(draw,salesList,count,countParam);
+        return new DataTablesResult<>(draw, salesList, count, countParam);
     }
 
     /**
      * 新增销售机会
+     *
      * @param sales
      * @return
      */
-    @RequestMapping(value ="/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     @ResponseBody
-    public String save(Sales sales){
+    public String save(Sales sales) {
         salesService.saveSales(sales);
         return "success";
-
 
 
     }
 
     /**
      * 保存新的跟进日志
+     *
      * @param salesLog
      * @return
      */
-    @RequestMapping(value = "/log/new",method = RequestMethod.POST)
-    public String saveLog(SalesLog salesLog){
+    @RequestMapping(value = "/log/new", method = RequestMethod.POST)
+    public String saveLog(SalesLog salesLog) {
         salesService.saveLog(salesLog);
-        return "redirect:/sales/"+salesLog.getSalesid();
+        return "redirect:/sales/" + salesLog.getSalesid();
 
 
     }
 
     /**
      * 修改机会的进度
+     *
      * @param id
      * @param progress
      * @return
      */
-    @RequestMapping(value = "/progress/edit",method = RequestMethod.POST)
-    public String editProgress(Integer id,String progress){
-        salesService.editSalesProgress(id,progress);
-        return "redirect:/sales"+id;
+    @RequestMapping(value = "/progress/edit", method = RequestMethod.POST)
+    public String editProgress(Integer id, String progress) {
+        salesService.editSalesProgress(id, progress);
+        return "redirect:/sales/" + id;
 
     }
 
     /**
      * 上传资料文件
+     *
      * @param file
      * @param salesid
      * @return
      */
-    public String updateFile(MultipartFile file,Integer salesid) throws IOException {
-       salesService.updateFile(file.getInputStream(),file.getOriginalFilename(),file.getContentType(),file.getSize(),salesid);
+    @RequestMapping(value = "/file/upload" ,method = RequestMethod.POST)
+    @ResponseBody
+    public String updateFile(MultipartFile file, Integer salesid) throws IOException {
+        salesService.updateFile(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), file.getSize(), salesid);
         return "success";
+
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/file/{id:\\d+}/download", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable Integer id) throws FileNotFoundException, UnsupportedEncodingException {
+        SalesFile salesFile = salesService.findSalesFileById(id);
+        if (salesFile == null) {
+            throw new NotFoundException();
+        }
+        File file = new File(savePath, salesFile.getFilename());
+        if (!file.exists()) {
+            throw new NotFoundException();
+        }
+        FileInputStream inputStream = new FileInputStream(file);
+        String fileName = salesFile.getName();
+        fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+        return ResponseEntity
+                .ok()
+                .contentLength(salesFile.getSize())
+                .contentType(MediaType.parseMediaType(salesFile.getContenttype()))
+                .header("Content-Disposition", "attachment;filename=\"" + fileName + "\"")
+                .body(new InputStreamResource(inputStream));
+    }
+
+    /**
+     * 删除销售机会
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/del/{id:\\d+}",method = RequestMethod.GET)
+    public String delSales(@PathVariable Integer id){
+        salesService.delSales(id);
+        return "redirect:/sales";
 
     }
 

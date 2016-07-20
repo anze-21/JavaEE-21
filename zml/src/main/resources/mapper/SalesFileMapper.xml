@@ -16,4 +16,12 @@
         insert INTO t_sales_file( name, filename, contenttype, `size`, salesid)
          VALUES (#{name},#{filename},#{contenttype},#{size},#{salesid})
     </insert>
+    <delete id="del">
+        DELETE FROM t_sales_file
+        WHERE id in(
+        <foreach collection="list" separator="," item="file">
+            #{file.id}
+        </foreach>
+        )
+    </delete>
 </mapper>
