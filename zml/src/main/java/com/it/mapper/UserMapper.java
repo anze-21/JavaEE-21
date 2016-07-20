@@ -1,12 +1,14 @@
 package com.it.mapper;
+
 import com.it.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
 
 public interface UserMapper {
 
-    User findByUsername(String username);
+    User findByUsername(@Param("username") String username);
 
     void updateUser(User user);
 

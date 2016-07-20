@@ -34,7 +34,7 @@
     <!--inner join t_role on t_user.roleid =t_role.id where t_user.username =#{username}-->
     <!--</select>-->
 
-    <select id="findByUsername" resultType="User">
+    <select id="findByUsername" resultType="com.it.pojo.User">
         SELECT t_user.*,t_role.id as 'role.id',t_role.rolename as 'role.rolename' FROM t_user
         INNER JOIN t_role on t_user.roleid = t_role.id WHERE t_user.username = #{username}
     </select>
