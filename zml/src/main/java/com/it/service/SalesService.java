@@ -113,9 +113,17 @@ public class SalesService {
      *
      * @param salesLog
      */
+    @Transactional
     public void saveLog(SalesLog salesLog) {
         salesLog.setType(SalesLog.getLogTypeInput());
         salesLogMapper.save(salesLog);
+        //修改机会的最后跟进时间
+        Sales sales =salesMapper.findById(salesLog.getSalesid());
+        sales.setLasttime(DateTime.now().toString("yyyy-MM-dd"));
+        salesMapper.update(sales);
+
+
+
     }
 
     /**

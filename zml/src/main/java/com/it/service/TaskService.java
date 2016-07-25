@@ -79,9 +79,4 @@ public class TaskService {
         return task;
     }
 
-
-    public void delTimeOutTask(Integer id) {
-        taskMapper.delTimeOutTask(id);
-
-    }
 }

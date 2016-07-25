@@ -17,5 +17,4 @@ public interface TaskMapper {
 
     void update(Task task);
 
-    void delTimeOutTask(Integer id);
 }

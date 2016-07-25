@@ -64,7 +64,7 @@
       VALUES (#{name},#{price},#{custid},#{username},#{progress},#{lasttime},#{userid},#{username},#{successtime})
 
     </insert>
-    <select id="findByCustId" resultType="Sales">
+    <select id="findByCustId" resultType="Sales" parameterType="long">
         SELECT * FROM  t_sales WHERE  custid = #{custId}
         order by id desc
     </select>

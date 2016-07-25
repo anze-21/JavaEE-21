@@ -1,4 +1,5 @@
 package com.it.controller;
+
 import com.it.dto.FlashMessage;
 import com.it.service.UserService;
 import com.it.util.ServletUtil;
@@ -25,19 +26,20 @@ public class HomeController {
 
     /**
      * 去登录页面
+     *
      * @return
      */
-    @RequestMapping(value = "/",method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
         return "login";
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public String login(String username, String password,
                         RedirectAttributes redirectAttributes, HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
 
-        if(subject.isAuthenticated()) {
+        if (subject.isAuthenticated()) {
             //当前用户已经登录,则先退出之前的账号（选做）
             subject.logout();
         }
@@ -51,11 +53,11 @@ public class HomeController {
         } catch (LockedAccountException ex) {
             ex.printStackTrace();
             redirectAttributes.addFlashAttribute("message",
-                    new FlashMessage(FlashMessage.STATE_ERROR,"账号已被禁用"));
+                    new FlashMessage(FlashMessage.STATE_ERROR, "账号已被禁用"));
         } catch (AuthenticationException ex) {
             ex.printStackTrace();
             redirectAttributes.addFlashAttribute("message",
-                    new FlashMessage(FlashMessage.STATE_ERROR,"账号或密码错误"));
+                    new FlashMessage(FlashMessage.STATE_ERROR, "账号或密码错误"));
         }
         return "redirect:/";
     }
@@ -63,13 +65,14 @@ public class HomeController {
 
     /**
      * 安全退出
+     *
      * @return
      */
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(RedirectAttributes redirectAttributes) {
         SecurityUtils.getSubject().logout();
 
-        redirectAttributes.addFlashAttribute("message",new FlashMessage("你已安全退出"));
+        redirectAttributes.addFlashAttribute("message", new FlashMessage("你已安全退出"));
         return "redirect:/";
     }
 
@@ -78,8 +81,9 @@ public class HomeController {
     public String home() {
         return "home";
     }
+
     @RequestMapping("/403")
-    public String error403(){
+    public String error403() {
         return "error/403";
     }
 

@@ -15,7 +15,7 @@ public interface SalesMapper {
 
     List<Sales> findByCustId(Integer custId);
 
-    Sales findById(Integer id);
+//    Sales findById(Integer id);
 
     void update(Sales sales);
 
@@ -30,4 +30,5 @@ public interface SalesMapper {
     List<Map<String, Object>> totalUserMoney(@Param("start") String start, @Param("end") String end);
 
 
+    Sales findById(Integer id);
 }

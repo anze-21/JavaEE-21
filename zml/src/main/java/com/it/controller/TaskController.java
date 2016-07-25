@@ -59,19 +59,6 @@ public class TaskController {
     }
 
     /**
-     * 删除延期事项
-     *
-     * @return
-     */
-    @RequestMapping(value = "/del/out_task/{id:\\d+}", method = RequestMethod.GET)
-    @ResponseBody
-    public String delTimeOutTask(@PathVariable Integer id){
-        taskService.delTimeOutTask(id);
-        return "success";
-
-    }
-
-    /**
      * 将日程设置为已完成
      *
      * @return

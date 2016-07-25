@@ -57,7 +57,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="todo-list">
                                 <c:forEach items="${timeoutTaskList}" var="task">
                                     <li>
-                                        <input type="checkbox" id="timeoutTaskList_event">
+                                        <input type="checkbox">
                                         <span class="text">${task.title}</span>
                                         <div class="tools">
                                             <i class="fa fa-trash-o" id="delOutDateTask"></i>
@@ -304,20 +304,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }).fail(function () {
                 alert("服务器异常");
             });
-        });
-        //删除已延期的事项
-        $("#delOutDateTask").click(function () {
-            var id = $("#timeoutTaskList_event").val();
-            if (confirm("确定要删除吗")) {
-                $.get("/task/del/" + id).done(function (data) {
-                    if ("success" == data) {
-                        $calendar.fullCalendar('removeEvents', id);
-                        $("#eventModal").modal('hide');
-                    }
-                }).fail(function () {
-                    alert("服务器异常");
-                });
-            }
         });
     });
 </script>
