@@ -1,4 +1,4 @@
-package com.kaishengit.pojo.util;
+package com.kaishengit.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

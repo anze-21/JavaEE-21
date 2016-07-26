@@ -1,10 +1,9 @@
 package com.kaishengit.test;
 
 import com.kaishengit.pojo.User;
-import com.kaishengit.pojo.util.HibernateUtil;
+import com.kaishengit.util.HibernateUtil;
 import junit.framework.Assert;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Test;
 
 public class HibernateLifeTestCase {
@@ -13,9 +12,9 @@ public class HibernateLifeTestCase {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         User user =new User();
-        user.setUsername("vivi");
-        user.setPassword("123123");
-        user.setAddress("上海浦东");
+        user.setUsername("zhangsan");
+        user.setPassword("cccccc");
+        user.setAddress("焦作");
         session.persist(user);
         session.getTransaction().commit();
 

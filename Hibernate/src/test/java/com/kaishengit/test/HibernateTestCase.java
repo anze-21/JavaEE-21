@@ -1,7 +1,7 @@
 package com.kaishengit.test;
 
 import com.kaishengit.pojo.User;
-import com.kaishengit.pojo.util.HibernateUtil;
+import com.kaishengit.util.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

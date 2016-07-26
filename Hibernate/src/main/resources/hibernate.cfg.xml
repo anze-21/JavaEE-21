@@ -5,7 +5,7 @@
     <session-factory>
         <!--数据库连接-->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql:///db_21</property>
+        <property name="connection.url">jdbc:mysql:///mydb</property>
         <property name="connection.username">root</property>
         <property name="connection.password">root</property>
         <!--方言-->
@@ -23,5 +23,9 @@
         <property name="current_session_context_class">thread</property>
         <!--添加映射文件-->
         <mapping resource="hbm/User.hbm.xml"/>
+        <mapping resource="hbm/Dept.hbm.xml"/>
+        <mapping resource="hbm/Employee.hbm.xml"/>
+        <mapping resource="hbm/Card.hbm.xml"/>
+        <mapping resource="hbm/Person.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
