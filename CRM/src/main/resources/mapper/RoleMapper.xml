@@ -3,13 +3,9 @@
 <mapper namespace="com.it.mapper.RoleMapper">
 
     <cache/>
-
-    <select id="findById" resultType="Role">
-        SELECT * FROM t_role WHERE id = #{id}
-    </select>
-
-    <select id="findAll" resultType="Role">
+    <select id="findById" resultType="com.it.pojo.Role">
         SELECT * FROM t_role
+        WHERE roleId = #{roleId}
     </select>
 
 </mapper>

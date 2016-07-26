@@ -3,31 +3,10 @@
 <mapper namespace="com.it.mapper.UserLogMapper">
 
     <cache/>
-
     <insert id="save">
-        INSERT INTO t_user_log(logintime, loginip, userid)
-         VALUES (#{logintime},#{loginip},#{userid})
+        INSERT INTO t_user_log(logintime,loginip,userid)
+        VALUES (logintime =#{logintime},loginip =#{loginip},userid =#{userid})
     </insert>
 
-    <select id="findByParam" resultType="UserLog">
-        SELECT * FROM t_user_log
-        <where>
-            <if test="userId != null and userId != ''">
-                userid = #{userId}
-            </if>
-        </where>
-        order by id desc
-        <if test="start != null and start != '' and length != null and length != ''">
-            limit ${start},${length}
-        </if>
-    </select>
-    <select id="countByParam" resultType="java.lang.Long">
-        SELECT COUNT(*) FROM t_user_log
-        <where>
-            <if test="userId != null and userId != ''">
-                userid = #{userId}
-            </if>
-        </where>
-    </select>
 
 </mapper>

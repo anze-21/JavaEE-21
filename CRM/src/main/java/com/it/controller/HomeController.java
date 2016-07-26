@@ -32,42 +32,7 @@ public class HomeController {
         return "login";
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.POST)
-    public String login(String username, String password,
-                        RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        Subject subject = SecurityUtils.getSubject();
 
-        if(subject.isAuthenticated()) {
-            //当前用户已经登录,则先退出之前的账号（选做）
-            subject.logout();
-        }
-        try {
-            UsernamePasswordToken usernamePasswordToken =
-                    new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
-            subject.login(usernamePasswordToken);
-            //获取登录的IP地址，并保存用户登录的日志
-            userService.saveUserLogin(ServletUtil.getRemoteIp(request));
-            return "redirect:/home";
-        } catch (LockedAccountException ex) {
-            redirectAttributes.addFlashAttribute("message",new FlashMessage(FlashMessage.STATE_ERROR,"账号已被禁用"));
-        } catch (AuthenticationException exception) {
-            redirectAttributes.addFlashAttribute("message",new FlashMessage(FlashMessage.STATE_ERROR,"账号或密码错误"));
-        }
-        return "redirect:/";
-    }
-
-
-    /**
-     * 安全退出
-     * @return
-     */
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
-    public String logout(RedirectAttributes redirectAttributes) {
-        SecurityUtils.getSubject().logout();
-
-        redirectAttributes.addFlashAttribute("message",new FlashMessage("你已安全退出"));
-        return "redirect:/";
-    }
 
 
     @RequestMapping("/home")
